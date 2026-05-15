@@ -36,7 +36,7 @@
 		57403B96B4CE4104C2A8DC61 /* FileInstallMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInstallMode.swift; sourceTree = "<group>"; };
 		68E67F1643123D086D565BE0 /* FolderInstallMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderInstallMode.swift; sourceTree = "<group>"; };
 		7F1A13BDEA18E0EC9BA4777F /* PKGBuilderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKGBuilderApp.swift; sourceTree = "<group>"; };
-		82F65B1FD4AF05B5031B0FEC /* PKGBuilder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PKGBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		82F65B1FD4AF05B5031B0FEC /* PKG Builder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PKG Builder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CACC32D744FE0048FEE4765 /* PackageBuildResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageBuildResult.swift; sourceTree = "<group>"; };
 		B42579A72AB97279DC6A7063 /* PackageBuilderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageBuilderService.swift; sourceTree = "<group>"; };
 		BAC9C614F5CBCBA175DEEA99 /* PackageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageTemplate.swift; sourceTree = "<group>"; };
@@ -81,7 +81,7 @@
 		8BBFB5561B52E9730F684759 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				82F65B1FD4AF05B5031B0FEC /* PKGBuilder.app */,
+				82F65B1FD4AF05B5031B0FEC /* PKG Builder.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,7 +152,7 @@
 			packageProductDependencies = (
 			);
 			productName = PKGBuilder;
-			productReference = 82F65B1FD4AF05B5031B0FEC /* PKGBuilder.app */;
+			productReference = 82F65B1FD4AF05B5031B0FEC /* PKG Builder.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -163,11 +163,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-					03ADACD0215DD5758E0ADFA0 = {
-						ProvisioningStyle = Manual;
-					};
-				};
 			};
 			buildConfigurationList = 9291853F24C21822000B5386 /* Build configuration list for PBXProject "PKGBuilder" */;
 			developmentRegion = en;
@@ -291,15 +286,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_REQUIRED = NO;
+				"CODE_SIGNING_ALLOWED[config=Debug]" = NO;
+				"CODE_SIGNING_ALLOWED[config=Release]" = YES;
+				"CODE_SIGNING_REQUIRED[config=Debug]" = NO;
+				"CODE_SIGNING_REQUIRED[config=Release]" = YES;
 				CODE_SIGN_ENTITLEMENTS = "PKG Builder/PKGBuilder.entitlements";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_STYLE[config=Debug]" = Manual;
+				"CODE_SIGN_STYLE[config=Release]" = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = K3T7J454P7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "PKG Builder/Info.plist";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -370,15 +368,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_REQUIRED = NO;
+				"CODE_SIGNING_ALLOWED[config=Debug]" = NO;
+				"CODE_SIGNING_ALLOWED[config=Release]" = YES;
+				"CODE_SIGNING_REQUIRED[config=Debug]" = NO;
+				"CODE_SIGNING_REQUIRED[config=Release]" = YES;
 				CODE_SIGN_ENTITLEMENTS = "PKG Builder/PKGBuilder.entitlements";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_STYLE[config=Debug]" = Manual;
+				"CODE_SIGN_STYLE[config=Release]" = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = K3T7J454P7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "PKG Builder/Info.plist";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

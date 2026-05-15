@@ -12,6 +12,47 @@ Instead of asking you to manually build a `payload` directory tree first, the ap
 
 The app’s packaging approach is based on the workflow described in the Scripting OS X article [Building Simple Component Packages](https://scriptingosx.com/2025/08/building-simple-component-packages/) and the original example script [`build-pkg.sh`](https://github.com/MagerValp/bash-facts/blob/master/build-pkg.sh).
 
+## Project Tooling
+
+This project uses a small set of local tools:
+
+- `Codex` for collaborative development and code changes
+- `XcodeGen` for generating the Xcode project
+- `project.yml` as the source-of-truth project configuration
+- `gh` for GitHub repository work
+
+### Why `project.yml` matters
+
+The checked-in Xcode project is generated from `project.yml`.
+
+That means when you want to change things like:
+
+- bundle identifier
+- signing behavior
+- hardened runtime
+- app icon configuration
+- target settings
+
+you should update `project.yml` first, then regenerate the project with:
+
+```bash
+xcodegen generate
+```
+
+### Generated project
+
+`PKGBuilder.xcodeproj` is not the primary hand-edited source of configuration.
+It is generated output derived from `project.yml`.
+
+You can still open it normally in Xcode for:
+
+- running the app
+- debugging
+- archiving
+- adjusting signing in Xcode when needed
+
+but structural project changes should be reflected back into `project.yml`.
+
 This avoids a common mistake: confusing the current source location with the final install location.
 
 Example:
@@ -310,6 +351,7 @@ Check the transcript for:
 Project files:
 
 - `project.yml`
+- `PKGBuilder.xcodeproj`
 - `PKG Builder/Views/ContentView.swift`
 - `PKG Builder/Stores/PackageBuilderStore.swift`
 - `PKG Builder/Services/PackageBuilderService.swift`
@@ -318,4 +360,18 @@ Build command:
 
 ```bash
 ./script/build_and_run.sh
+```
+
+Regenerate the Xcode project:
+
+```bash
+xcodegen generate
+```
+
+Useful GitHub CLI commands:
+
+```bash
+gh repo view
+gh status
+gh auth status
 ```

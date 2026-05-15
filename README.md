@@ -16,6 +16,17 @@ This app was informed by:
 - the Scripting OS X article [Building Simple Component Packages](https://scriptingosx.com/2025/08/building-simple-component-packages/)
 - the original example script [`build-pkg.sh`](https://github.com/MagerValp/bash-facts/blob/master/build-pkg.sh)
 
+## Tooling
+
+This project is set up around a small, explicit toolchain:
+
+- `Codex` for paired development and project edits
+- `XcodeGen` to generate the Xcode project
+- `project.yml` as the source of truth for project configuration
+- `gh` for GitHub repository work
+
+That means the checked-in [PKGBuilder.xcodeproj](/Users/xavier/Downloads/All%20Code%20Projects/PKG%20Builder/PKGBuilder.xcodeproj) is generated output, while [project.yml](/Users/xavier/Downloads/All%20Code%20Projects/PKG%20Builder/project.yml) is the file you should edit when changing build settings, bundle metadata, signing behavior, or target configuration.
+
 ## What It Does
 
 - Accepts a dropped file or folder, or lets you choose one manually
@@ -118,9 +129,24 @@ Build only:
 xcodebuild -project PKGBuilder.xcodeproj -scheme PKGBuilder -configuration Debug -derivedDataPath Build build
 ```
 
+Regenerate the Xcode project after changing `project.yml`:
+
+```bash
+xcodegen generate
+```
+
+GitHub repo tasks can use the GitHub CLI when needed:
+
+```bash
+gh repo view
+gh status
+```
+
 ## Project Layout
 
 - `project.yml`: XcodeGen project spec
+- `PKGBuilder.xcodeproj`: generated Xcode project
 - `PKG Builder/`: app source
 - `script/build_and_run.sh`: local build/run entrypoint
+- `script/generate_app_icon.swift`: app icon generation helper
 - `USER-GUIDE.md`: fuller usage guide
