@@ -10,12 +10,14 @@
 		0D46E4DA320A24FF87B2180C /* SourceDropZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2C4E5C1FA060F42D5F2D5 /* SourceDropZone.swift */; };
 		1881583AE86BCA9ADBC6C120 /* FileInstallMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57403B96B4CE4104C2A8DC61 /* FileInstallMode.swift */; };
 		2970C63DA9DEF7C93EC0BAA1 /* OutputMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1647A2079C5672EF88393C78 /* OutputMode.swift */; };
+		391C3E2FDF3CF18602B03B25 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C704181BCA3C28D533AE888 /* HelpView.swift */; };
 		509C1727A44E0BA7A740E684 /* PackageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9C614F5CBCBA175DEEA99 /* PackageTemplate.swift */; };
 		5DADD570921DB6F3DB7D9C62 /* PackageBuildResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CACC32D744FE0048FEE4765 /* PackageBuildResult.swift */; };
 		642D46C0AB25A8013359D365 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 524A6A076160AFB0763B386F /* Assets.xcassets */; };
 		7083BF1CB0736FC8A1DA6C6A /* FolderInstallMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E67F1643123D086D565BE0 /* FolderInstallMode.swift */; };
 		71ED782E49E00C8711E2BE01 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7AEE6F71DF38127B531B8F /* ContentView.swift */; };
 		737C1E6F297CE7415FFBE981 /* PKGBuilderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1A13BDEA18E0EC9BA4777F /* PKGBuilderApp.swift */; };
+		82CC67C62241E391867ACAA1 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D15997A4943FBD4A0D571C3 /* AboutView.swift */; };
 		96329E2462A045CAAB10E4F4 /* PackageBuilderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42579A72AB97279DC6A7063 /* PackageBuilderService.swift */; };
 		976C6B4275A488C7418EC7C5 /* PackageSourceKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC449511347CFF5F50804432 /* PackageSourceKind.swift */; };
 		99DBA157BB370077B1DD5B2A /* TemplateEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F125C0B2EF1EBB85F925AA4 /* TemplateEditorSheet.swift */; };
@@ -31,9 +33,11 @@
 		1647A2079C5672EF88393C78 /* OutputMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputMode.swift; sourceTree = "<group>"; };
 		19D09034BA3074917AB21BE7 /* InstallerCertificateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallerCertificateService.swift; sourceTree = "<group>"; };
 		1AE2C4E5C1FA060F42D5F2D5 /* SourceDropZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceDropZone.swift; sourceTree = "<group>"; };
+		2C704181BCA3C28D533AE888 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		39A0221813ED13A45020011B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		524A6A076160AFB0763B386F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57403B96B4CE4104C2A8DC61 /* FileInstallMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInstallMode.swift; sourceTree = "<group>"; };
+		5D15997A4943FBD4A0D571C3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		68E67F1643123D086D565BE0 /* FolderInstallMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderInstallMode.swift; sourceTree = "<group>"; };
 		7F1A13BDEA18E0EC9BA4777F /* PKGBuilderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKGBuilderApp.swift; sourceTree = "<group>"; };
 		82F65B1FD4AF05B5031B0FEC /* PKG Builder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PKG Builder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,7 +109,9 @@
 		DB1446A82D85DB883080C1B1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5D15997A4943FBD4A0D571C3 /* AboutView.swift */,
 				0B7AEE6F71DF38127B531B8F /* ContentView.swift */,
+				2C704181BCA3C28D533AE888 /* HelpView.swift */,
 				1AE2C4E5C1FA060F42D5F2D5 /* SourceDropZone.swift */,
 				0F125C0B2EF1EBB85F925AA4 /* TemplateEditorSheet.swift */,
 			);
@@ -199,9 +205,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82CC67C62241E391867ACAA1 /* AboutView.swift in Sources */,
 				71ED782E49E00C8711E2BE01 /* ContentView.swift in Sources */,
 				1881583AE86BCA9ADBC6C120 /* FileInstallMode.swift in Sources */,
 				7083BF1CB0736FC8A1DA6C6A /* FolderInstallMode.swift in Sources */,
+				391C3E2FDF3CF18602B03B25 /* HelpView.swift in Sources */,
 				D0C1FCA670824543794A8DE4 /* InstallerCertificateService.swift in Sources */,
 				2970C63DA9DEF7C93EC0BAA1 /* OutputMode.swift in Sources */,
 				737C1E6F297CE7415FFBE981 /* PKGBuilderApp.swift in Sources */,

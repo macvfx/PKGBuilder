@@ -53,6 +53,27 @@ You can still open it normally in Xcode for:
 
 but structural project changes should be reflected back into `project.yml`.
 
+### If you build from Xcode
+
+If you are working directly in Xcode, the main thing to remember is:
+
+- change project structure and build settings in `project.yml`
+- change visible app text in the Swift source files
+
+For example:
+
+- About window text lives in `PKG Builder/Views/AboutView.swift`
+- Help window text lives in `PKG Builder/Views/HelpView.swift`
+- main window labels and example strings live in `PKG Builder/Views/ContentView.swift`
+
+So if you want the About text to say something else, edit `AboutView.swift`, not the generated project file.
+
+After changing `project.yml`, regenerate the Xcode project:
+
+```bash
+xcodegen generate
+```
+
 This avoids a common mistake: confusing the current source location with the final install location.
 
 Example:
