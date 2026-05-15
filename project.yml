@@ -1,0 +1,31 @@
+name: PKGBuilder
+options:
+  bundleIdPrefix: com.macvfx
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+
+targets:
+  PKGBuilder:
+    type: application
+    platform: macOS
+    sources:
+      - path: PKG Builder
+    settings:
+      base:
+        PRODUCT_NAME: "PKG Builder"
+        INFOPLIST_FILE: "PKG Builder/Info.plist"
+        GENERATE_INFOPLIST_FILE: false
+        CODE_SIGN_ENTITLEMENTS: "PKG Builder/PKGBuilder.entitlements"
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+        PRODUCT_BUNDLE_IDENTIFIER: com.macvfx.PKGBuilder
+        INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.utilities"
