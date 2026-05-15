@@ -23,7 +23,7 @@ targets:
         INFOPLIST_FILE: "PKG Builder/Info.plist"
         GENERATE_INFOPLIST_FILE: false
         CODE_SIGN_ENTITLEMENTS: "PKG Builder/PKGBuilder.entitlements"
-        ENABLE_HARDENED_RUNTIME: NO
+        ENABLE_HARDENED_RUNTIME: YES
         CODE_SIGN_STYLE: Manual
         CODE_SIGNING_ALLOWED: NO
         CODE_SIGNING_REQUIRED: NO
