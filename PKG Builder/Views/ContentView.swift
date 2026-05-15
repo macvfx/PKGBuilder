@@ -74,7 +74,7 @@ struct ContentView: View {
     private var installMappingSection: some View {
         GroupBox {
             VStack(alignment: .leading, spacing: 14) {
-                TextField("/Library/Scripts/MyScript.sh", text: $store.installTargetPath)
+                TextField("/Library/Scripts/ScreenSaver", text: $store.installTargetPath)
                     .textFieldStyle(.roundedBorder)
 
                 if store.sourceKind == .file {
@@ -324,11 +324,11 @@ struct ContentView: View {
             case .installIntoDirectory:
                 return "Examples: `/Users/Shared/Stickers`, `/Library/Application Support/MyApp/Assets`, `/usr/local/share/icons`"
             case .installAsExactFilePath:
-                return "Examples: `/Users/Shared/tool.sh`, `/Library/Scripts/ScreenSaver.jpg`, `/usr/local/bin/mytool`"
+                return "Examples: `/Users/Shared/Stickers/cover.jpg`, `/Library/Scripts/ScreenSaver/cleanup.zsh`, `/usr/local/bin/toolname`"
             }
         }
 
-        return "Examples: `/Users/Shared/MyFolder`, `/Library/Scripts/ScreenSaver`, `/usr/local/share/MyTool`"
+        return "Examples: `/Users/Shared/MyFolder`, `/Library/Scripts/ScreenSaver`, `/Library/Scripts/ScreenSaver`"
     }
 
     private func directoryChooserRow(

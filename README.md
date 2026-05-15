@@ -95,15 +95,15 @@ Installed result:
 
 - `/Users/Shared/Stickers/sticker.jpg`
 
-### Install a script as a specific filename
+### Install a binary as a specific filename
 
-- Select `cleanup.sh`
+- Select `toolname`
 - Choose `Exact File Path`
-- Enter `/usr/local/bin/cleanup`
+- Enter `/usr/local/bin/toolname`
 
 Installed result:
 
-- `/usr/local/bin/cleanup`
+- `/usr/local/bin/toolname`
 
 ### Install a folder into `/Library/Scripts`
 
@@ -114,6 +114,10 @@ Installed result:
 Installed result:
 
 - `/Library/Scripts/ScreenSaver`
+
+Example contents of that folder might include:
+
+- `/Library/Scripts/ScreenSaver/cleanup.zsh`
 
 ## Build And Run
 

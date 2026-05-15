@@ -82,7 +82,7 @@ The install path is where the item should land on the destination Mac after the 
 Examples:
 
 - `/Users/Shared/Stickers`
-- `/Library/Scripts`
+- `/Library/Scripts/ScreenSaver`
 - `/usr/local/bin/toolname`
 
 This is the path PKG Builder uses to create the staged payload structure for `pkgbuild`.
@@ -168,6 +168,7 @@ Example:
 Result:
 
 - `/Library/Scripts/ScreenSaver`
+- that installed folder might contain scripts such as `/Library/Scripts/ScreenSaver/cleanup.zsh`
 
 ### `Install Contents`
 
@@ -184,6 +185,7 @@ Example:
 Result:
 
 - contents of `ScreenSaver` are copied directly into `/Library/Scripts`
+- for example, `cleanup.zsh` would land at `/Library/Scripts/cleanup.zsh`
 
 ## Typical Workflows
 
@@ -220,6 +222,7 @@ Expected installed result:
 Expected installed result:
 
 - `/Library/Scripts/<SelectedFolderName>`
+- a real example might be `/Library/Scripts/ScreenSaver/cleanup.zsh`
 
 ## Package Metadata
 
