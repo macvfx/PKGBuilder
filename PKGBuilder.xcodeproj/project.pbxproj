@@ -12,6 +12,7 @@
 		2970C63DA9DEF7C93EC0BAA1 /* OutputMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1647A2079C5672EF88393C78 /* OutputMode.swift */; };
 		509C1727A44E0BA7A740E684 /* PackageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9C614F5CBCBA175DEEA99 /* PackageTemplate.swift */; };
 		5DADD570921DB6F3DB7D9C62 /* PackageBuildResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CACC32D744FE0048FEE4765 /* PackageBuildResult.swift */; };
+		642D46C0AB25A8013359D365 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 524A6A076160AFB0763B386F /* Assets.xcassets */; };
 		7083BF1CB0736FC8A1DA6C6A /* FolderInstallMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E67F1643123D086D565BE0 /* FolderInstallMode.swift */; };
 		71ED782E49E00C8711E2BE01 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7AEE6F71DF38127B531B8F /* ContentView.swift */; };
 		737C1E6F297CE7415FFBE981 /* PKGBuilderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1A13BDEA18E0EC9BA4777F /* PKGBuilderApp.swift */; };
@@ -31,6 +32,7 @@
 		19D09034BA3074917AB21BE7 /* InstallerCertificateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallerCertificateService.swift; sourceTree = "<group>"; };
 		1AE2C4E5C1FA060F42D5F2D5 /* SourceDropZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceDropZone.swift; sourceTree = "<group>"; };
 		39A0221813ED13A45020011B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		524A6A076160AFB0763B386F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57403B96B4CE4104C2A8DC61 /* FileInstallMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInstallMode.swift; sourceTree = "<group>"; };
 		68E67F1643123D086D565BE0 /* FolderInstallMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderInstallMode.swift; sourceTree = "<group>"; };
 		7F1A13BDEA18E0EC9BA4777F /* PKGBuilderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKGBuilderApp.swift; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 		76B4AE18BC114925709E6EBE /* PKG Builder */ = {
 			isa = PBXGroup;
 			children = (
+				524A6A076160AFB0763B386F /* Assets.xcassets */,
 				39A0221813ED13A45020011B /* Info.plist */,
 				0D083E91FB5ACCDD4BCB985D /* PKGBuilder.entitlements */,
 				77730541DF4C076695C4B915 /* App */,
@@ -139,6 +142,7 @@
 			buildConfigurationList = B54E8A4F544780955707230A /* Build configuration list for PBXNativeTarget "PKGBuilder" */;
 			buildPhases = (
 				1A236A974954F64B51A13DB5 /* Sources */,
+				474068863B3EF1CF4E7876BE /* Resources */,
 			);
 			buildRules = (
 			);
@@ -183,6 +187,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		474068863B3EF1CF4E7876BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				642D46C0AB25A8013359D365 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1A236A974954F64B51A13DB5 /* Sources */ = {
