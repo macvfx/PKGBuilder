@@ -9,6 +9,13 @@ The app is designed around one key idea:
 
 The app stages the correct payload structure for you, clears extended attributes, optionally signs with an Installer certificate, and runs `pkgbuild`.
 
+## References
+
+This app was informed by:
+
+- the Scripting OS X article [Building Simple Component Packages](https://scriptingosx.com/2025/08/building-simple-component-packages/)
+- the original example script [`build-pkg.sh`](https://github.com/MagerValp/bash-facts/blob/master/build-pkg.sh)
+
 ## What It Does
 
 - Accepts a dropped file or folder, or lets you choose one manually

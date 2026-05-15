@@ -10,6 +10,8 @@ Instead of asking you to manually build a `payload` directory tree first, the ap
 - describe where it should install on the destination Mac
 - build the package from that mapping
 
+The app’s packaging approach is based on the workflow described in the Scripting OS X article [Building Simple Component Packages](https://scriptingosx.com/2025/08/building-simple-component-packages/) and the original example script [`build-pkg.sh`](https://github.com/MagerValp/bash-facts/blob/master/build-pkg.sh).
+
 This avoids a common mistake: confusing the current source location with the final install location.
 
 Example:
