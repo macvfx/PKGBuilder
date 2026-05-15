@@ -74,6 +74,8 @@ After changing `project.yml`, regenerate the Xcode project:
 xcodegen generate
 ```
 
+### Source vs Install Paths
+
 This avoids a common mistake: confusing the current source location with the final install location.
 
 Example:
