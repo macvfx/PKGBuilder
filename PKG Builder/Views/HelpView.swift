@@ -23,7 +23,7 @@ struct HelpView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Choose or drop one source file or folder.")
                     Text("Set the install path to where that item should land on the destination Mac.")
-                    Text("Pick the correct file or folder behavior, then build the package and review the transcript.")
+                    Text("Pick the correct file or folder behavior and installed permissions, then build the package and review the transcript.")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -44,6 +44,16 @@ struct HelpView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
 
+            GroupBox("Installed Permissions") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Keep Original Permissions keeps each source item's current read, write, and execute permissions. Installer may still change its owner to root.")
+                    Text("Standard uses 0644 for ordinary files and 0755 for folders and executables. Everyone can read or run them, but only the owner can make changes. This is recommended for most packages.")
+                    Text("Everyone Can Edit uses 0666 for ordinary files and 0777 for folders and executables. Every local user can modify the installed payload, so use this only when shared write access is required.")
+                    Text("PKG Builder warns before packaging root-owned source items. Root ownership is not automatically an error; the selected permissions determine what other users can do.")
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
             GroupBox("Troubleshooting") {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("The transcript shows the staging path plus the exact `xattr` and `pkgbuild` commands used.")
@@ -58,6 +68,6 @@ struct HelpView: View {
             Spacer()
         }
         .padding(24)
-        .frame(minWidth: 640, minHeight: 480, alignment: .topLeading)
+        .frame(minWidth: 720, minHeight: 700, alignment: .topLeading)
     }
 }

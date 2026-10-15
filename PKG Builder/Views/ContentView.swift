@@ -5,7 +5,7 @@ struct ContentView: View {
 
     @State private var showTemplateSheet = false
     @State private var templateName = ""
-    @State private var confirmUserFolderInstall = false
+    @State private var showBuildConfirmation = false
 
     var body: some View {
         ScrollView {
@@ -51,13 +51,13 @@ struct ContentView: View {
         } message: {
             Text(store.buildErrorMessage ?? "")
         }
-        .alert("Install Into User Folder?", isPresented: $confirmUserFolderInstall) {
+        .alert("Review Package Build", isPresented: $showBuildConfirmation) {
             Button("Cancel", role: .cancel) { }
             Button("Build Package") {
                 Task { await store.buildPackage() }
             }
         } message: {
-            Text("The install path points into a user home folder. Source paths are not reused as install paths automatically. Continue only if this destination is intentional.")
+            Text(buildConfirmationMessage)
         }
     }
 
@@ -111,6 +111,29 @@ struct ContentView: View {
                     Text(warning)
                         .font(.callout.weight(.semibold))
                         .foregroundStyle(.orange)
+                }
+                Divider()
+
+                Picker("Installed Permissions", selection: $store.installedPermissionsMode) {
+                    ForEach(InstalledPermissionsMode.allCases) { mode in
+                        Text(mode.displayName).tag(mode)
+                    }
+                }
+
+                Text(store.installedPermissionsMode.helpText)
+                    .font(.caption)
+                    .foregroundStyle(store.installedPermissionsMode == .writableByAllUsers ? Color.orange : Color.secondary)
+
+                if let warning = store.rootOwnedSourceWarning {
+                    Text(warning)
+                        .font(.callout.weight(.semibold))
+                        .foregroundStyle(.orange)
+                }
+
+                if store.isInspectingSourceOwnership {
+                    Label("Checking source ownership…", systemImage: "magnifyingglass")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
         } label: {
@@ -280,14 +303,10 @@ struct ContentView: View {
 
                 HStack {
                     Button(store.isBuilding ? "Building…" : "Build Package") {
-                        if store.targetPathWarning != nil {
-                            confirmUserFolderInstall = true
-                        } else {
-                            Task { await store.buildPackage() }
-                        }
+                        requestBuild()
                     }
                     .keyboardShortcut(.defaultAction)
-                    .disabled(store.isBuilding || store.sourceURL == nil)
+                    .disabled(store.isBuilding || store.sourceURL == nil || store.isInspectingSourceOwnership)
 
                     if store.lastBuiltPackagePath != nil {
                         Button("Reveal Package", action: store.revealLastBuiltPackage)
@@ -305,6 +324,29 @@ struct ContentView: View {
             Label("Build", systemImage: "hammer")
                 .font(.headline)
         }
+    }
+
+    private func requestBuild() {
+        if store.rootOwnedSourceItemCount > 0 || store.targetPathWarning != nil {
+            showBuildConfirmation = true
+        } else {
+            Task { await store.buildPackage() }
+        }
+    }
+
+    private var buildConfirmationMessage: String {
+        var sections: [String] = []
+        if let warning = store.rootOwnedSourceWarning {
+            var ownershipSection = warning
+            if !store.rootOwnedSourcePaths.isEmpty {
+                ownershipSection += "\n\nExamples:\n" + store.rootOwnedSourcePaths.joined(separator: "\n")
+            }
+            sections.append(ownershipSection)
+        }
+        if store.targetPathWarning != nil {
+            sections.append("The install path points into a user home folder. Source paths are not reused as install paths automatically. Continue only if this destination is intentional.")
+        }
+        return sections.joined(separator: "\n\n")
     }
 
     private var transcriptSection: some View {

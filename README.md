@@ -25,7 +25,10 @@ This project is set up around a small, explicit toolchain:
 - `project.yml` as the source of truth for project configuration
 - `gh` for GitHub repository work
 
-That means the checked-in [PKGBuilder.xcodeproj](/Users/xavier/Downloads/All%20Code%20Projects/PKG%20Builder/PKGBuilder.xcodeproj) is generated output, while [project.yml](/Users/xavier/Downloads/All%20Code%20Projects/PKG%20Builder/project.yml) is the file you should edit when changing build settings, bundle metadata, signing behavior, or target configuration.
+That means the checked-in [PKGBuilder.xcodeproj](PKGBuilder.xcodeproj) is
+generated output, while [project.yml](project.yml) is the file you should edit
+when changing build settings, bundle metadata, signing behavior, or target
+configuration.
 
 ## What It Does
 
@@ -36,6 +39,20 @@ That means the checked-in [PKGBuilder.xcodeproj](/Users/xavier/Downloads/All%20C
 - Remembers last-used settings
 - Shows a live build transcript for troubleshooting
 - Optionally signs packages with a detected `Developer ID Installer` certificate
+- Lets you preserve source modes, apply standard read/execute modes, or deliberately make installed payload items writable by all users
+- Detects root-owned source items and requires confirmation before packaging them
+
+## Ownership And Permissions
+
+PKG Builder explicitly uses `pkgbuild --ownership recommended`. Apple generally assigns `root:wheel` to files installed in the system domain, while files installed in a user home directory are owned by that user. Ownership and POSIX access modes are separate: a root-owned file can still be readable or executable by users, but it must have suitable mode bits.
+
+The Installed Permissions setting controls staged POSIX modes:
+
+- `Keep Original Permissions` keeps each source item's existing read, write, and execute permissions
+- `Standard — 0644 Files, 0755 Folders/Executables` lets every user read or run the payload while only its owner can modify it
+- `Everyone Can Edit — 0666 Files, 0777 Folders/Executables` lets every local user modify the payload; use this only when shared write access is required
+
+Symbolic links are not chmodded. If the selected source contains root-owned items, the app shows their count and example paths and asks for confirmation before building.
 
 ## File Install Modes
 

@@ -9,6 +9,7 @@ final class PackageBuilderStore: ObservableObject {
     @Published var installTargetPath = ""
     @Published var fileInstallMode: FileInstallMode = .installIntoDirectory
     @Published var folderInstallMode: FolderInstallMode = .installFolderItself
+    @Published var installedPermissionsMode: InstalledPermissionsMode = .preserveSource
     @Published var packageName = ""
     @Published var version = "1.0.0"
     @Published var identifier = ""
@@ -24,6 +25,9 @@ final class PackageBuilderStore: ObservableObject {
     @Published var buildErrorMessage: String?
     @Published var lastBuiltPackagePath: String?
     @Published var lastStagingDirectoryPath: String?
+    @Published var rootOwnedSourcePaths: [String] = []
+    @Published var rootOwnedSourceItemCount = 0
+    @Published var isInspectingSourceOwnership = false
 
     private let builderService = PackageBuilderService()
     private let certificateService = InstallerCertificateService()
@@ -54,6 +58,12 @@ final class PackageBuilderStore: ObservableObject {
         return "Installing into a user home folder is risky. The source location does not determine the install path."
     }
 
+    var rootOwnedSourceWarning: String? {
+        guard rootOwnedSourceItemCount > 0 else { return nil }
+        let noun = rootOwnedSourceItemCount == 1 ? "item is" : "items are"
+        return "\(rootOwnedSourceItemCount) root-owned source \(noun) included. The package uses pkgbuild's recommended ownership policy; verify the selected access modes allow the intended users to read, execute, or modify the installed files."
+    }
+
     var outputPreviewPath: String {
         guard let sourceURL else { return "Choose a source to preview the output package path." }
 
@@ -65,7 +75,7 @@ final class PackageBuilderStore: ObservableObject {
     }
 
     var canBuild: Bool {
-        validationMessages.isEmpty && !isBuilding
+        validationMessages.isEmpty && !isBuilding && !isInspectingSourceOwnership
     }
 
     var validationMessages: [String] {
@@ -159,6 +169,7 @@ final class PackageBuilderStore: ObservableObject {
 
         sourceURL = url
         sourceKind = isDirectory.boolValue ? .folder : .file
+        inspectSourceOwnership(at: url)
 
         if packageName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             packageName = url.deletingPathExtension().lastPathComponent
@@ -180,6 +191,7 @@ final class PackageBuilderStore: ObservableObject {
             installTargetPath: installTargetPath,
             fileInstallMode: fileInstallMode,
             folderInstallMode: folderInstallMode,
+            installedPermissionsMode: installedPermissionsMode,
             outputMode: outputMode,
             workingDirectoryPath: workingDirectoryPath,
             customOutputDirectoryPath: customOutputDirectoryPath,
@@ -199,6 +211,7 @@ final class PackageBuilderStore: ObservableObject {
         installTargetPath = template.installTargetPath
         fileInstallMode = template.fileInstallMode
         folderInstallMode = template.folderInstallMode
+        installedPermissionsMode = template.installedPermissionsMode
         outputMode = template.outputMode
         workingDirectoryPath = template.workingDirectoryPath
         customOutputDirectoryPath = template.customOutputDirectoryPath
@@ -257,6 +270,7 @@ final class PackageBuilderStore: ObservableObject {
                 installTargetPath: installTargetPath.trimmingCharacters(in: .whitespacesAndNewlines),
                 fileInstallMode: fileInstallMode,
                 folderInstallMode: folderInstallMode,
+                installedPermissionsMode: installedPermissionsMode,
                 packageName: packageName.trimmingCharacters(in: .whitespacesAndNewlines),
                 version: version.trimmingCharacters(in: .whitespacesAndNewlines),
                 identifier: identifier.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -345,11 +359,62 @@ final class PackageBuilderStore: ObservableObject {
         }
     }
 
+    private func inspectSourceOwnership(at sourceURL: URL) {
+        rootOwnedSourcePaths = []
+        rootOwnedSourceItemCount = 0
+        isInspectingSourceOwnership = true
+
+        Task {
+            let result = await Task.detached(priority: .utility) {
+                Self.findRootOwnedItems(at: sourceURL)
+            }.value
+
+            guard self.sourceURL == sourceURL else { return }
+            self.rootOwnedSourceItemCount = result.count
+            self.rootOwnedSourcePaths = result.samples
+            self.isInspectingSourceOwnership = false
+        }
+    }
+
+    nonisolated private static func findRootOwnedItems(at sourceURL: URL) -> (count: Int, samples: [String]) {
+        let fileManager = FileManager.default
+        var count = 0
+        var samples: [String] = []
+
+        func inspect(_ url: URL) {
+            guard let attributes = try? fileManager.attributesOfItem(atPath: url.path),
+                  let ownerID = attributes[.ownerAccountID] as? NSNumber,
+                  ownerID.intValue == 0 else { return }
+            count += 1
+            if samples.count < 5 {
+                samples.append(url.path)
+            }
+        }
+
+        inspect(sourceURL)
+        var isDirectory: ObjCBool = false
+        guard fileManager.fileExists(atPath: sourceURL.path, isDirectory: &isDirectory), isDirectory.boolValue,
+              let enumerator = fileManager.enumerator(
+                at: sourceURL,
+                includingPropertiesForKeys: [.isSymbolicLinkKey],
+                options: [],
+                errorHandler: { _, _ in true }
+              ) else {
+            return (count, samples)
+        }
+
+        for case let itemURL as URL in enumerator {
+            inspect(itemURL)
+        }
+        return (count, samples)
+    }
+
     private func bindPersistence() {
         Publishers.MergeMany(
             $installTargetPath.map { _ in () }.eraseToAnyPublisher(),
             $fileInstallMode.map { _ in () }.eraseToAnyPublisher(),
             $folderInstallMode.map { _ in () }.eraseToAnyPublisher(),
+            $installedPermissionsMode.map { _ in () }.eraseToAnyPublisher(),
             $packageName.map { _ in () }.eraseToAnyPublisher(),
             $version.map { _ in () }.eraseToAnyPublisher(),
             $identifier.map { _ in () }.eraseToAnyPublisher(),
@@ -371,6 +436,7 @@ final class PackageBuilderStore: ObservableObject {
             installTargetPath = settings.installTargetPath
             fileInstallMode = settings.fileInstallMode
             folderInstallMode = settings.folderInstallMode
+            installedPermissionsMode = settings.installedPermissionsMode
             packageName = settings.packageName
             version = settings.version
             identifier = settings.identifier
@@ -391,6 +457,7 @@ final class PackageBuilderStore: ObservableObject {
             installTargetPath: installTargetPath,
             fileInstallMode: fileInstallMode,
             folderInstallMode: folderInstallMode,
+            installedPermissionsMode: installedPermissionsMode,
             packageName: packageName,
             version: version,
             identifier: identifier,
@@ -416,6 +483,7 @@ private struct PersistedSettings: Codable {
     var installTargetPath: String
     var fileInstallMode: FileInstallMode
     var folderInstallMode: FolderInstallMode
+    var installedPermissionsMode: InstalledPermissionsMode
     var packageName: String
     var version: String
     var identifier: String
@@ -423,4 +491,51 @@ private struct PersistedSettings: Codable {
     var workingDirectoryPath: String
     var customOutputDirectoryPath: String
     var selectedCertificateName: String
+
+    private enum CodingKeys: String, CodingKey {
+        case installTargetPath, fileInstallMode, folderInstallMode, installedPermissionsMode
+        case packageName, version, identifier, outputMode
+        case workingDirectoryPath, customOutputDirectoryPath, selectedCertificateName
+    }
+
+    init(
+        installTargetPath: String,
+        fileInstallMode: FileInstallMode,
+        folderInstallMode: FolderInstallMode,
+        installedPermissionsMode: InstalledPermissionsMode,
+        packageName: String,
+        version: String,
+        identifier: String,
+        outputMode: OutputMode,
+        workingDirectoryPath: String,
+        customOutputDirectoryPath: String,
+        selectedCertificateName: String
+    ) {
+        self.installTargetPath = installTargetPath
+        self.fileInstallMode = fileInstallMode
+        self.folderInstallMode = folderInstallMode
+        self.installedPermissionsMode = installedPermissionsMode
+        self.packageName = packageName
+        self.version = version
+        self.identifier = identifier
+        self.outputMode = outputMode
+        self.workingDirectoryPath = workingDirectoryPath
+        self.customOutputDirectoryPath = customOutputDirectoryPath
+        self.selectedCertificateName = selectedCertificateName
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        installTargetPath = try container.decode(String.self, forKey: .installTargetPath)
+        fileInstallMode = try container.decode(FileInstallMode.self, forKey: .fileInstallMode)
+        folderInstallMode = try container.decode(FolderInstallMode.self, forKey: .folderInstallMode)
+        installedPermissionsMode = try container.decodeIfPresent(InstalledPermissionsMode.self, forKey: .installedPermissionsMode) ?? .preserveSource
+        packageName = try container.decode(String.self, forKey: .packageName)
+        version = try container.decode(String.self, forKey: .version)
+        identifier = try container.decode(String.self, forKey: .identifier)
+        outputMode = try container.decode(OutputMode.self, forKey: .outputMode)
+        workingDirectoryPath = try container.decode(String.self, forKey: .workingDirectoryPath)
+        customOutputDirectoryPath = try container.decode(String.self, forKey: .customOutputDirectoryPath)
+        selectedCertificateName = try container.decode(String.self, forKey: .selectedCertificateName)
+    }
 }

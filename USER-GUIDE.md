@@ -247,6 +247,20 @@ Expected installed result:
 - `/Library/Scripts/<SelectedFolderName>`
 - a real example might be `/Library/Scripts/ScreenSaver/cleanup.zsh`
 
+## Installed Ownership And Permissions
+
+PKG Builder uses `pkgbuild`'s recommended ownership policy explicitly. For system-wide destinations this generally means `root:wheel`. Root ownership is normal for many installed tools and resources; whether a user can read, execute, or change an item is controlled separately by its POSIX mode.
+
+The `Installed Permissions` menu provides three policies:
+
+- `Keep Original Permissions` keeps each file and folder's existing read, write, and execute permissions. A source file set to `0600`, for example, remains accessible only to its installed owner.
+- `Standard — 0644 Files, 0755 Folders/Executables` lets all users read ordinary files and open folders or run executables, while only the owner can modify them. This is the recommended choice for most packages.
+- `Everyone Can Edit — 0666 Files, 0777 Folders/Executables` lets every local user modify the installed payload. Use it only when shared write access is required.
+
+The last option is intentionally permissive and should only be used when all local users need to modify the installed payload. Symbolic links are left unchanged.
+
+When a selected source contains root-owned items, PKG Builder shows a warning with the item count and up to five example paths. Building requires confirmation so unexpected source ownership is visible before the package is created.
+
 ## Package Metadata
 
 PKG Builder lets you edit:

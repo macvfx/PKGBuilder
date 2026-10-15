@@ -23,6 +23,7 @@
 		99DBA157BB370077B1DD5B2A /* TemplateEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F125C0B2EF1EBB85F925AA4 /* TemplateEditorSheet.swift */; };
 		9D680E6549631731840329BA /* PackageBuilderStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C453FCA2494BCEE385E7FA6D /* PackageBuilderStore.swift */; };
 		AA0BBFBD8E178FF5E898989D /* VersionBumper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD71AC8BDCC84644B35ED41 /* VersionBumper.swift */; };
+		B4B08A3B364F8D0AB264C8EE /* InstalledPermissionsMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9231272A3CCEE9AFB2C7D0 /* InstalledPermissionsMode.swift */; };
 		D0C1FCA670824543794A8DE4 /* InstallerCertificateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D09034BA3074917AB21BE7 /* InstallerCertificateService.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		1AE2C4E5C1FA060F42D5F2D5 /* SourceDropZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceDropZone.swift; sourceTree = "<group>"; };
 		2C704181BCA3C28D533AE888 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		39A0221813ED13A45020011B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4E9231272A3CCEE9AFB2C7D0 /* InstalledPermissionsMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstalledPermissionsMode.swift; sourceTree = "<group>"; };
 		524A6A076160AFB0763B386F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57403B96B4CE4104C2A8DC61 /* FileInstallMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInstallMode.swift; sourceTree = "<group>"; };
 		5D15997A4943FBD4A0D571C3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			children = (
 				57403B96B4CE4104C2A8DC61 /* FileInstallMode.swift */,
 				68E67F1643123D086D565BE0 /* FolderInstallMode.swift */,
+				4E9231272A3CCEE9AFB2C7D0 /* InstalledPermissionsMode.swift */,
 				1647A2079C5672EF88393C78 /* OutputMode.swift */,
 				9CACC32D744FE0048FEE4765 /* PackageBuildResult.swift */,
 				CC449511347CFF5F50804432 /* PackageSourceKind.swift */,
@@ -210,6 +213,7 @@
 				1881583AE86BCA9ADBC6C120 /* FileInstallMode.swift in Sources */,
 				7083BF1CB0736FC8A1DA6C6A /* FolderInstallMode.swift in Sources */,
 				391C3E2FDF3CF18602B03B25 /* HelpView.swift in Sources */,
+				B4B08A3B364F8D0AB264C8EE /* InstalledPermissionsMode.swift in Sources */,
 				D0C1FCA670824543794A8DE4 /* InstallerCertificateService.swift in Sources */,
 				2970C63DA9DEF7C93EC0BAA1 /* OutputMode.swift in Sources */,
 				737C1E6F297CE7415FFBE981 /* PKGBuilderApp.swift in Sources */,

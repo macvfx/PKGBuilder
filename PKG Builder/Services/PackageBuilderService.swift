@@ -6,6 +6,7 @@ struct PackageBuildRequest {
     let installTargetPath: String
     let fileInstallMode: FileInstallMode
     let folderInstallMode: FolderInstallMode
+    let installedPermissionsMode: InstalledPermissionsMode
     let packageName: String
     let version: String
     let identifier: String
@@ -51,6 +52,7 @@ struct PackageBuilderService {
         do {
             log("Staging payload in \(payloadRoot.path)")
             try stagePayload(for: request, into: payloadRoot)
+            try applyInstalledPermissions(request.installedPermissionsMode, to: payloadRoot, log: log)
 
             let outputDirectory = request.outputURL.deletingLastPathComponent()
             do {
@@ -73,6 +75,7 @@ struct PackageBuilderService {
                 "--root", payloadRoot.path,
                 "--identifier", request.identifier,
                 "--version", request.version,
+                "--ownership", "recommended",
                 "--install-location", "/"
             ]
 
@@ -98,6 +101,54 @@ struct PackageBuilderService {
                 underlyingError: error
             )
         }
+    }
+
+    private func applyInstalledPermissions(
+        _ mode: InstalledPermissionsMode,
+        to payloadRoot: URL,
+        log: @escaping @Sendable (String) -> Void
+    ) throws {
+        guard mode != .preserveSource else {
+            log("Preserving source POSIX modes. pkgbuild ownership policy: recommended.")
+            return
+        }
+
+        let fileManager = FileManager.default
+        guard let enumerator = fileManager.enumerator(
+            at: payloadRoot,
+            includingPropertiesForKeys: [.isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey],
+            options: [],
+            errorHandler: { _, _ in true }
+        ) else { return }
+
+        var updatedItemCount = 0
+        for case let itemURL as URL in enumerator {
+            let values = try itemURL.resourceValues(forKeys: [.isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey])
+            if values.isSymbolicLink == true {
+                continue
+            }
+
+            let permissions: Int
+            if values.isDirectory == true {
+                permissions = mode == .standard ? 0o755 : 0o777
+            } else if values.isRegularFile == true {
+                let attributes = try fileManager.attributesOfItem(atPath: itemURL.path)
+                let existingPermissions = (attributes[.posixPermissions] as? NSNumber)?.intValue ?? 0
+                let isExecutable = existingPermissions & 0o111 != 0
+                if mode == .standard {
+                    permissions = isExecutable ? 0o755 : 0o644
+                } else {
+                    permissions = isExecutable ? 0o777 : 0o666
+                }
+            } else {
+                continue
+            }
+
+            try fileManager.setAttributes([.posixPermissions: permissions], ofItemAtPath: itemURL.path)
+            updatedItemCount += 1
+        }
+
+        log("Applied \(mode.displayName) to \(updatedItemCount) staged item\(updatedItemCount == 1 ? "" : "s"). pkgbuild ownership policy: recommended.")
     }
 
     private func stagePayload(for request: PackageBuildRequest, into payloadRoot: URL) throws {
